@@ -1,1 +1,17 @@
-<p>transaction-form works!</p>
+<form [formGroup]="transactionForm" (ngSubmit)="submit()">
+  <input formControlName="amount" type="number" placeholder="Betrag" />
+  <input formControlName="description" type="text" placeholder="Beschreibung" />
+
+  <select formControlName="type">
+    <option value="income">Einnahme</option>
+    <option value="expense">Ausgabe</option>
+  </select>
+
+  <select formControlName="category">
+    @for (cat of categories; track $index) {
+      <option [ngValue]="cat">{{ cat.name }}</option>
+    }
+  </select>
+
+  <button type="submit" [disabled]="transactionForm.invalid">Hinzufügen</button>
+</form>

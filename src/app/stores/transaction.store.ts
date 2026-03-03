@@ -8,28 +8,48 @@ type transactionState = {
 
 const initialTransactionState: transactionState = { transactions: [] };
 
-export const transationStore = signalStore(
+export const TransactionStore = signalStore(
+  { providedIn: 'root' },
   withState(initialTransactionState),
 
   withComputed((store) => ({
-    total: computed(() => store.transactions().reduce((sum, t) => sum + t.amount, 0)),
+    summary: computed(() => {
+      const transactions = store.transactions();
+
+      let income = 0;
+      let expense = 0;
+
+      for (const t of transactions) {
+        if (t.category.type === 'income') {
+          income += t.amount;
+        } else {
+          expense += t.amount;
+        }
+      }
+
+      return {
+        income,
+        expense,
+        balance: income - expense,
+      };
+    }),
   })),
 
   withMethods((store) => ({
     //create
-    addExpense(transaction: Transaction) {
+    addTransaction(transaction: Transaction) {
       patchState(store, (state) => ({
-        transactions: { ...state.transactions, transaction },
+        transactions: [...state.transactions, transaction],
       }));
     },
     //update
-    updateExpense(transaction: Transaction) {
+    updateTransaction(updated: Transaction) {
       patchState(store, (state) => ({
-        transactions: [...state.transactions.filter((t) => t.id !== transaction.id), transaction],
+        transactions: state.transactions.map((t) => (t.id === updated.id ? updated : t)),
       }));
     },
-    //deletegit commit --amend --reset-author
-    deleteExpense(id: string) {
+    //delete
+    deleteTransaction(id: string) {
       patchState(store, (state) => ({
         transactions: state.transactions.filter((t) => t.id !== id),
       }));
