@@ -28,7 +28,7 @@ export const transationStore = signalStore(
         transactions: [...state.transactions.filter((t) => t.id !== transaction.id), transaction],
       }));
     },
-    //delete
+    //deletegit commit --amend --reset-author
     deleteExpense(id: string) {
       patchState(store, (state) => ({
         transactions: state.transactions.filter((t) => t.id !== id),
