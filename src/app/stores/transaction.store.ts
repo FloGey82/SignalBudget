@@ -1,12 +1,27 @@
-import { patchState, signalStore, withComputed, withMethods, withState } from '@ngrx/signals';
+import {
+  patchState,
+  signalStore,
+  withComputed,
+  withHooks,
+  withMethods,
+  withState,
+} from '@ngrx/signals';
 import { Transaction } from '../models/transaction.model';
-import { computed } from '@angular/core';
+import { computed, effect } from '@angular/core';
+import { loadFromLocalStorage, saveToLocalStorage } from '../utils/localStorage';
 
-type transactionState = {
+type TransactionState = {
   transactions: Transaction[];
 };
 
-const initialTransactionState: transactionState = { transactions: [] };
+const LOCAL_STORAGE_KEY = 'transactions';
+
+const initialTransactionState: TransactionState = loadFromLocalStorage<TransactionState>(
+  LOCAL_STORAGE_KEY,
+  {
+    transactions: [],
+  },
+);
 
 export const TransactionStore = signalStore(
   { providedIn: 'root' },
@@ -53,6 +68,17 @@ export const TransactionStore = signalStore(
       patchState(store, (state) => ({
         transactions: state.transactions.filter((t) => t.id !== id),
       }));
+    },
+  })),
+  withHooks((store) => ({
+    onInit() {
+      effect(() => {
+        const state = store.transactions();
+
+        saveToLocalStorage(LOCAL_STORAGE_KEY, {
+          transactions: state,
+        });
+      });
     },
   })),
 );
