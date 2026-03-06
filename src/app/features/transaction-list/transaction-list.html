@@ -9,24 +9,27 @@
 
 <section class="list">
   <h3>Transaktionen</h3>
-  @for (t of transactions(); track $index) {
+  @for (t of transactions(); track t.id) {
     <div class="transaction-item">
       <div>
-      <strong>{{ t.description }}</strong>
-      <div>{{ t.category.name }}</div>
-      <small>{{ t.date | date:'short' }}</small>
-    </div>
+        <strong>{{ t.description }}</strong>
+        <div>{{ t.category.name }}</div>
+        <small>{{ t.date | date: 'short' }}</small>
+      </div>
 
-    <div>
-      <span
-        [class.income]="t.category.type === 'income'"
-        [class.expense]="t.category.type === 'expense'"
-      >
-        {{ t.amount | currency:'EUR' }}
-      </span>
+      <div>
+        <span
+          [class.income]="t.category.type === 'income'"
+          [class.expense]="t.category.type === 'expense'"
+        >
+          {{ t.amount | currency: 'EUR' }}
+        </span>
 
-      <button (click)="deleteTransaction(t.id)">✕</button>
+        <button (click)="deleteTransaction(t.id)">✕</button>
+        <button [routerLink]="['/edit', t.id]">edit</button>
+      </div>
     </div>
-    </div>
+  } @empty {
+    <p>Keine Transaktionen vorhanden</p>
   }
 </section>

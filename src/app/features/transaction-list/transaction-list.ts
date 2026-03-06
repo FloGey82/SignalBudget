@@ -1,10 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { TransactionStore } from '../../stores/transaction.store';
 import { CurrencyPipe, DatePipe } from '@angular/common';
+import { RouterLink } from "@angular/router";
 
 @Component({
   selector: 'app-transaction-list',
-  imports: [CurrencyPipe, DatePipe],
+  imports: [CurrencyPipe, DatePipe, RouterLink],
   templateUrl: './transaction-list.html',
   styleUrl: './transaction-list.scss',
 })

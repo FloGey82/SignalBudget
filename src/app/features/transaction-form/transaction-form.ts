@@ -1,8 +1,11 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TransactionStore } from '../../stores/transaction.store';
 import { v4 as uuidv4 } from 'uuid';
 import { Category } from '../../models/category.model';
+import { ActivatedRoute } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-transaction-form',
@@ -10,7 +13,7 @@ import { Category } from '../../models/category.model';
   templateUrl: './transaction-form.html',
   styleUrl: './transaction-form.scss',
 })
-export class TransactionForm {
+export class TransactionForm implements OnInit {
   transactionForm: FormGroup;
 
   categories: Category[] = [
@@ -19,6 +22,9 @@ export class TransactionForm {
   ];
 
   private readonly _transactionStore = inject(TransactionStore);
+  private readonly _router = inject(ActivatedRoute);
+
+  id = toSignal(this._router.paramMap.pipe(map((p) => p.get('id') ?? null)));
 
   constructor(private _fb: FormBuilder) {
     this.transactionForm = this._fb.group({
@@ -29,18 +35,29 @@ export class TransactionForm {
     });
   }
 
+  ngOnInit(): void {
+    const transaction = this._transactionStore.getTransactionById(this.id());
+    if (transaction) {
+      this.transactionForm.patchValue(transaction);
+    }
+  }
+
   submit() {
     const value = this.transactionForm.value;
 
     const transaction = {
-      id: uuidv4(),
+      id: this.id() ?? uuidv4(),
       amount: value.amount,
       description: value.description,
       category: value.category,
       date: new Date(),
     };
 
-    this._transactionStore.addTransaction(transaction);
+    if (this.id()) {
+      this._transactionStore.updateTransaction(transaction);
+    } else {
+      this._transactionStore.addTransaction(transaction);
+    }
 
     this.transactionForm.reset({ amount: 0, type: 'expense', category: null });
   }

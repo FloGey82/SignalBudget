@@ -69,6 +69,11 @@ export const TransactionStore = signalStore(
         transactions: state.transactions.filter((t) => t.id !== id),
       }));
     },
+
+    getTransactionById(id: string | null | undefined): Transaction | undefined {
+      if (!id) return undefined;
+      return store.transactions().find((t) => t.id === id) ?? undefined;
+    },
   })),
   withHooks((store) => ({
     onInit() {
