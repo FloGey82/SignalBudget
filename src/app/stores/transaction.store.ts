@@ -9,9 +9,11 @@ import {
 import { Transaction } from '../models/transaction.model';
 import { computed, effect } from '@angular/core';
 import { loadFromLocalStorage, saveToLocalStorage } from '../utils/localStorage';
+import { CategoryType } from '../models/category.model';
 
 type TransactionState = {
   transactions: Transaction[];
+  filter: { query: CategoryType | 'all'; order: 'asc' | 'desc' };
 };
 
 const LOCAL_STORAGE_KEY = 'transactions';
@@ -20,6 +22,10 @@ const initialTransactionState: TransactionState = loadFromLocalStorage<Transacti
   LOCAL_STORAGE_KEY,
   {
     transactions: [],
+    filter: {
+      query: 'all',
+      order: 'asc',
+    },
   },
 );
 
@@ -28,6 +34,15 @@ export const TransactionStore = signalStore(
   withState(initialTransactionState),
 
   withComputed((store) => ({
+    getFilteredTransactions: computed(() => {
+      const { query, order } = store.filter();
+      const direction = order === 'asc' ? 1 : -1;
+
+      return store
+        .transactions()
+        .filter((t) => query === 'all' || t.category.type === query)
+        .sort((a, b) => direction * a.amount - direction * b.amount);
+    }),
     summary: computed(() => {
       const transactions = store.transactions();
 

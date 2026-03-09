@@ -1,5 +1,7 @@
 export interface Category {
   id: string;
   name: string;
-  type: 'income' | 'expense';
+  type: CategoryType;
 }
+
+export type CategoryType = 'income' | 'expense';
