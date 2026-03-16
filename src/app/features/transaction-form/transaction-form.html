@@ -1,17 +1,40 @@
-<form [formGroup]="transactionForm" (ngSubmit)="submit()">
-  <input formControlName="amount" type="number" placeholder="Betrag" />
-  <input formControlName="description" type="text" placeholder="Beschreibung" />
+<form [formGroup]="transactionForm" (ngSubmit)="submit()" class="form">
 
-  <select formControlName="type">
-    <option value="income">Einnahme</option>
-    <option value="expense">Ausgabe</option>
-  </select>
+  <h2 class="title">
+    {{ transactionId() ? 'Edit Transaction' : 'Add Transaction' }}
+  </h2>
 
-  <select formControlName="category">
-    @for (cat of categories; track $index) {
-      <option [ngValue]="cat">{{ cat.name }}</option>
-    }
-  </select>
+  <div class="field">
+    <label>Amount</label>
+    <input type="number" formControlName="amount" placeholder="0.00" />
+  </div>
 
-  <button type="submit" [disabled]="transactionForm.invalid">Hinzufügen</button>
+  <div class="field">
+    <label>Category</label>
+    <select formControlName="category">
+      <option value="income">Income</option>
+      <option value="expense">Expense</option>
+    </select>
+  </div>
+
+  <div class="field">
+    <label>Description</label>
+    <input type="text" formControlName="description" placeholder="Groceries, Salary..." />
+  </div>
+
+  <div class="field">
+    <label>Date</label>
+    <input type="date" formControlName="date" />
+  </div>
+
+  <div class="actions">
+    <button type="button" class="secondary" (click)="cancelEmit()">
+      Cancel
+    </button>
+
+    <button type="submit" class="primary">
+      Save
+    </button>
+  </div>
+
 </form>

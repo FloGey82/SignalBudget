@@ -7,6 +7,10 @@
   </p>
 </section>
 
+<app-drawer [open]="showPanel()" (openChange)="showPanel.set(false)">
+  <app-transaction-form [transactionId]="editingTransactionId()" (save)="showPanel.set(false)" (cancel)="showPanel.set(false)" />
+</app-drawer>
+
 <section class="list">
   <h3>Transaktionen</h3>
   @for (t of transactions(); track t.id) {
@@ -26,7 +30,7 @@
         </span>
 
         <button (click)="deleteTransaction(t.id)">✕</button>
-        <button [routerLink]="['/edit', t.id]">edit</button>
+        <button (click)="editingTransactionId.set(t.id); showPanel.set(true)">edit</button>
       </div>
     </div>
   } @empty {
@@ -34,4 +38,4 @@
   }
 </section>
 
-<button class="fab" routerLink="/add">+</button>
+<button class="fab" (click)="showPanel.set(true)">+</button>

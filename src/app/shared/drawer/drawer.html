@@ -1,0 +1,8 @@
+@if (open()) {
+  <div>
+    <div class="overlay" (click)="close()"></div>
+    <div class="panel">
+      <ng-content/>
+    </div>
+  </div>
+}

@@ -1,0 +1,8 @@
+@keyframes slideOut {
+  from { transform: translateX(0); }
+  to { transform: translateX(100%); }
+}
+
+.panel.ng-leave {
+  animation: slideOut 0.25s forwards;
+}
