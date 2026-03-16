@@ -1,9 +1,9 @@
-import { Category } from './category.model';
+import {CategoryType } from './category.model';
 
 export interface Transaction {
   id: string;
   amount: number;
-  category: Category;
+  category: CategoryType;
   description: string;
   date: Date;
 }

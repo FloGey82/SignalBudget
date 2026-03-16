@@ -40,17 +40,19 @@ export const TransactionStore = signalStore(
 
       return store
         .transactions()
-        .filter((t) => query === 'all' || t.category.type === query)
+        .filter((t) => query === 'all' || t.category === query)
         .sort((a, b) => direction * a.amount - direction * b.amount);
     }),
     summary: computed(() => {
       const transactions = store.transactions();
 
+      console.log({ transactions });
+
       let income = 0;
       let expense = 0;
 
       for (const t of transactions) {
-        if (t.category.type === 'income') {
+        if (t.category === 'income') {
           income += t.amount;
         } else {
           expense += t.amount;
