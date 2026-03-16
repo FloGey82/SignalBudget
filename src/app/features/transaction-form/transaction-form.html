@@ -1,5 +1,4 @@
 <form [formGroup]="transactionForm" (ngSubmit)="submit()" class="form">
-
   <h2 class="title">
     {{ transactionId() ? 'Edit Transaction' : 'Add Transaction' }}
   </h2>
@@ -28,13 +27,8 @@
   </div>
 
   <div class="actions">
-    <button type="button" class="secondary" (click)="cancelEmit()">
-      Cancel
-    </button>
+    <button type="button" class="secondary" (click)="cancelEmit()">Cancel</button>
 
-    <button type="submit" class="primary">
-      Save
-    </button>
+    <button type="submit" class="primary" [disabled]="transactionForm.invalid">Save</button>
   </div>
-
 </form>

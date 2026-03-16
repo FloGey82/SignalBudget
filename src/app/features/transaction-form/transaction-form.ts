@@ -28,8 +28,8 @@ export class TransactionForm {
     this.transactionForm = this._fb.group({
       amount: [0, [Validators.required, Validators.min(0.01)]],
       description: ['', Validators.required],
-      type: ['expense', Validators.required],
       category: [null, Validators.required],
+      date:[null, Validators.required]
     });
 
     effect(() => {
@@ -60,8 +60,9 @@ export class TransactionForm {
     this.transactionForm.reset({ amount: 0, type: 'expense', category: null });
     this.save.emit();
   }
-
+  
   cancelEmit() {
+    this.transactionForm.reset({ amount: 0, type: 'expense', category: null });
     this.cancel.emit();
   }
 }

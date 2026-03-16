@@ -1,11 +1,45 @@
 .summary {
-  background: #f5f7fa;
-  padding: 1rem;
-  border-radius: 8px;
-  margin-bottom: 1.5rem;
-  p {
-    margin: 0.25rem 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.summary-card {
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+
+  display: flex;
+  flex-direction: column;
+
+  .label {
+    font-size: 12px;
+    color: #777;
   }
+
+  .value {
+    font-size: 20px;
+    font-weight: 600;
+  }
+}
+
+.income .value {
+  color: #2e7d32;
+}
+
+.expense .value {
+  color: #c62828;
+}
+
+.balance .value {
+  color: #1565c0;
+}
+
+.list h3 {
+  margin-bottom: 12px;
 }
 
 .transaction-item {
@@ -13,30 +47,53 @@
   justify-content: space-between;
   align-items: center;
 
-  padding: 0.75rem 0;
-  border-bottom: 1px solid #e0e0e0;
+  padding: 14px 16px;
+  margin-bottom: 10px;
 
-  .income {
-    color: #2e7d32;
-    font-weight: 600;
-  }
+  background: white;
+  border-radius: 10px;
 
-  .expense {
-    color: #c62828;
-    font-weight: 600;
-  }
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
 
-  button {
-    margin-left: 1rem;
-    border: none;
-    background: transparent;
-    cursor: pointer;
-    color: #999;
+  transition: transform 0.15s ease;
+}
 
-    &:hover {
-      color: #000;
-    }
-  }
+.transaction-item:hover {
+  transform: translateY(-10px);
+}
+
+.transaction-info .title {
+  font-weight: 600;
+}
+
+.transaction-info .meta {
+  font-size: 12px;
+  color: #777;
+}
+
+.transaction-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.amount {
+  font-weight: 600;
+}
+
+.amount.income {
+  color: #2e7d32;
+}
+
+.amount.expense {
+  color: #c62828;
+}
+
+button {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 16px;
 }
 
 .fab {
@@ -44,15 +101,31 @@
   right: 24px;
   bottom: 24px;
 
-  width: 56px;
-  height: 56px;
+  width: 60px;
+  height: 60px;
+
   border-radius: 50%;
-
   border: none;
-  background: #4caf50;
-  color: white;
-  font-size: 24px;
 
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  font-size: 28px;
+
+  background: linear-gradient(135deg, #4caf50, #43a047);
+
+  color: white;
+
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+
   cursor: pointer;
+
+  transition: transform 0.15s ease;
+}
+
+.fab:hover {
+  transform: scale(1.08);
+}
+
+.empty {
+  text-align: center;
+  color: #999;
+  padding: 40px 0;
 }

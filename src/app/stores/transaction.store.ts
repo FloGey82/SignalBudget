@@ -46,8 +46,6 @@ export const TransactionStore = signalStore(
     summary: computed(() => {
       const transactions = store.transactions();
 
-      console.log({ transactions });
-
       let income = 0;
       let expense = 0;
 
