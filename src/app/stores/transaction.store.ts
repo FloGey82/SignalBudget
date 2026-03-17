@@ -18,16 +18,23 @@ type TransactionState = {
 
 const LOCAL_STORAGE_KEY = 'transactions';
 
-const initialTransactionState: TransactionState = loadFromLocalStorage<TransactionState>(
-  LOCAL_STORAGE_KEY,
-  {
+const initialTransactionState: TransactionState = (() => {
+  const state = loadFromLocalStorage<TransactionState>(LOCAL_STORAGE_KEY, {
     transactions: [],
     filter: {
       query: 'all',
       order: 'asc',
     },
-  },
-);
+  });
+
+  return {
+    ...state,
+    transactions: state.transactions.map((t) => ({
+      ...t,
+      date: new Date(t.date), // 🔥 wichtig
+    })),
+  };
+})();
 
 export const TransactionStore = signalStore(
   { providedIn: 'root' },
@@ -87,6 +94,7 @@ export const TransactionStore = signalStore(
 
     getTransactionById(id: string | null | undefined): Transaction | undefined {
       if (!id) return undefined;
+      console.log(store.transactions());
       return store.transactions().find((t) => t.id === id) ?? undefined;
     },
   })),

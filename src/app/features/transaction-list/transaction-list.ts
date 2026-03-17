@@ -4,6 +4,7 @@ import { CurrencyPipe, DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Drawer } from '../../shared/drawer/drawer';
 import { TransactionForm } from '../transaction-form/transaction-form';
+import { ToastService } from '../../shared/toast/toast.service';
 
 @Component({
   selector: 'app-transaction-list',
@@ -13,6 +14,8 @@ import { TransactionForm } from '../transaction-form/transaction-form';
 })
 export class TransactionList {
   transactionStore = inject(TransactionStore);
+  _toast = inject(ToastService);
+
   summary = this.transactionStore.summary;
   transactions = this.transactionStore.transactions;
   showPanel = signal(false);
@@ -21,6 +24,7 @@ export class TransactionList {
   deleteTransaction(id: string) {
     if (id) {
       this.transactionStore.deleteTransaction(id);
+      this._toast.show('Transaction deleted 🗑️', 'info');
     }
   }
 }
