@@ -94,7 +94,6 @@ export const TransactionStore = signalStore(
 
     getTransactionById(id: string | null | undefined): Transaction | undefined {
       if (!id) return undefined;
-      console.log(store.transactions());
       return store.transactions().find((t) => t.id === id) ?? undefined;
     },
   })),

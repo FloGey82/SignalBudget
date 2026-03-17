@@ -4,6 +4,7 @@ import { TransactionStore } from '../../stores/transaction.store';
 import { v4 as uuidv4 } from 'uuid';
 import { Category } from '../../models/category.model';
 import { ToastService } from '../../shared/toast/toast.service';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-transaction-form',
@@ -31,7 +32,7 @@ export class TransactionForm {
       amount: [0, [Validators.required, Validators.min(0.01)]],
       description: ['', Validators.required],
       category: [null, Validators.required],
-      date: [null, Validators.required],
+      date: [formatDate(new Date(), 'yyyy-MM-dd', 'en'), Validators.required],
     });
 
     effect(() => {
