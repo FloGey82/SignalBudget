@@ -1,11 +1,10 @@
 import { Component, inject, signal } from '@angular/core';
 import { TransactionStore } from '../../stores/transaction.store';
 import { CurrencyPipe, DatePipe } from '@angular/common';
-import { RouterLink } from '@angular/router';
 import { Drawer } from '../../shared/drawer/drawer';
 import { TransactionForm } from '../transaction-form/transaction-form';
 import { ToastService } from '../../shared/toast/toast.service';
-import { SortButtons } from "../sort-buttons/sort-buttons";
+import { SortButtons } from '../sort-buttons/sort-buttons';
 
 @Component({
   selector: 'app-transaction-list',
@@ -15,7 +14,7 @@ import { SortButtons } from "../sort-buttons/sort-buttons";
 })
 export class TransactionList {
   transactionStore = inject(TransactionStore);
-  _toast = inject(ToastService);
+  private readonly _toast = inject(ToastService);
 
   summary = this.transactionStore.summary;
   transactions = this.transactionStore.getFilteredTransactions;

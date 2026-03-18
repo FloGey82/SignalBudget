@@ -46,7 +46,6 @@ export const TransactionStore = signalStore(
 
   withComputed((store) => ({
     getFilteredTransactions: computed(() => {
-      
       const query = store.filter.query();
       const order = store.filter.order();
 
@@ -81,19 +80,18 @@ export const TransactionStore = signalStore(
   })),
 
   withMethods((store) => ({
-    //create
     addTransaction(transaction: Transaction) {
       patchState(store, (state) => ({
         transactions: [...state.transactions, transaction],
       }));
     },
-    //update
+
     updateTransaction(updated: Transaction) {
       patchState(store, (state) => ({
         transactions: state.transactions.map((t) => (t.id === updated.id ? updated : t)),
       }));
     },
-    //delete
+
     deleteTransaction(id: string) {
       patchState(store, (state) => ({
         transactions: state.transactions.filter((t) => t.id !== id),

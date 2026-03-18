@@ -1,8 +1,8 @@
 @if (isVisible()) {
-<div class="drawer-wrapper">
+  <div class="drawer-wrapper">
     <div class="overlay" (click)="close()" [class.show]="open()"></div>
     <div class="panel" [class.open]="slideIn()">
-      <ng-content/>
+      <ng-content />
     </div>
   </div>
 }

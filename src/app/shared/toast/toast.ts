@@ -10,5 +10,4 @@ import { ToastService } from './toast.service';
 })
 export class Toast {
   toastService = inject(ToastService);
-  
 }

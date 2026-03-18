@@ -9,5 +9,4 @@ import { TransactionStore } from '../../stores/transaction.store';
 })
 export class SortButtons {
   store = inject(TransactionStore);
-
 }

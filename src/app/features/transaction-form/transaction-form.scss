@@ -2,7 +2,7 @@
   background: #fff;
   padding: 24px;
   border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 
   display: flex;
   flex-direction: column;
@@ -42,7 +42,7 @@ input:focus,
 select:focus {
   outline: none;
   border-color: #4caf50;
-  box-shadow: 0 0 6px rgba(76,175,80,0.25);
+  box-shadow: 0 0 6px rgba(76, 175, 80, 0.25);
 }
 .actions {
   display: flex;
@@ -71,12 +71,12 @@ button:disabled {
 .primary {
   background: linear-gradient(135deg, #4caf50, #43a047);
   color: white;
-  box-shadow: 0 4px 12px rgba(76,175,80,0.3);
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
 }
 
 .primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(76,175,80,0.35);
+  box-shadow: 0 6px 16px rgba(76, 175, 80, 0.35);
 }
 
 .secondary {
