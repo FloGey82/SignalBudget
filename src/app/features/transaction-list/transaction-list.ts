@@ -5,10 +5,11 @@ import { RouterLink } from '@angular/router';
 import { Drawer } from '../../shared/drawer/drawer';
 import { TransactionForm } from '../transaction-form/transaction-form';
 import { ToastService } from '../../shared/toast/toast.service';
+import { SortButtons } from "../sort-buttons/sort-buttons";
 
 @Component({
   selector: 'app-transaction-list',
-  imports: [CurrencyPipe, DatePipe, Drawer, TransactionForm],
+  imports: [CurrencyPipe, DatePipe, Drawer, TransactionForm, SortButtons],
   templateUrl: './transaction-list.html',
   styleUrl: './transaction-list.scss',
 })
@@ -17,7 +18,7 @@ export class TransactionList {
   _toast = inject(ToastService);
 
   summary = this.transactionStore.summary;
-  transactions = this.transactionStore.transactions;
+  transactions = this.transactionStore.getFilteredTransactions;
   showPanel = signal(false);
   editingTransactionId = signal<string | null>(null);
 

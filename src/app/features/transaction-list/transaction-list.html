@@ -1,35 +1,38 @@
 <section class="summary">
   <div class="summary-card income">
     <span class="label">Income</span>
-    <span class="value">{{ summary().income | currency:'EUR' }}</span>
+    <span class="value">{{ summary().income | currency: 'EUR' }}</span>
   </div>
 
   <div class="summary-card expense">
     <span class="label">Expense</span>
-    <span class="value">{{ summary().expense | currency:'EUR' }}</span>
+    <span class="value">{{ summary().expense | currency: 'EUR' }}</span>
   </div>
 
   <div class="summary-card balance">
     <span class="label">Balance</span>
-    <span class="value">{{ summary().balance | currency:'EUR' }}</span>
+    <span class="value">{{ summary().balance | currency: 'EUR' }}</span>
   </div>
 </section>
 
 <app-drawer [open]="showPanel()" (openChange)="showPanel.set(false)">
-  <app-transaction-form [transactionId]="editingTransactionId()" (save)="showPanel.set(false)" (cancel)="showPanel.set(false)" />
+  <app-transaction-form
+    [transactionId]="editingTransactionId()"
+    (save)="showPanel.set(false)"
+    (cancel)="showPanel.set(false)"
+  />
 </app-drawer>
 
 <section class="list">
   <h3>Transactions</h3>
 
+  <app-sort-buttons />
+
   @for (t of transactions(); track t.id) {
     <div class="transaction-item">
-
       <div class="transaction-info">
         <div class="title">{{ t.description }}</div>
-        <div class="meta">
-          {{ t.category }} • {{ t.date | date:'mediumDate' }}
-        </div>
+        <div class="meta">{{ t.category }} • {{ t.date | date: 'mediumDate' }}</div>
       </div>
 
       <div class="transaction-actions">
@@ -38,18 +41,13 @@
           [class.income]="t.category === 'income'"
           [class.expense]="t.category === 'expense'"
         >
-          {{ t.amount | currency:'EUR' }}
+          {{ t.amount | currency: 'EUR' }}
         </span>
 
-        <button (click)="editingTransactionId.set(t.id); showPanel.set(true)">
-          ✏️
-        </button>
+        <button (click)="editingTransactionId.set(t.id); showPanel.set(true)">✏️</button>
 
-        <button (click)="deleteTransaction(t.id)">
-          🗑
-        </button>
+        <button (click)="deleteTransaction(t.id)">🗑</button>
       </div>
-
     </div>
   } @empty {
     <p class="empty">No transactions yet</p>

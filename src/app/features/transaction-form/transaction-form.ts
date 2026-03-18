@@ -2,7 +2,6 @@ import { Component, effect, inject, input, OnInit, output } from '@angular/core'
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TransactionStore } from '../../stores/transaction.store';
 import { v4 as uuidv4 } from 'uuid';
-import { Category } from '../../models/category.model';
 import { ToastService } from '../../shared/toast/toast.service';
 import { formatDate } from '@angular/common';
 
@@ -15,11 +14,6 @@ import { formatDate } from '@angular/common';
 export class TransactionForm {
   transactionForm: FormGroup;
   transactionId = input<string | null>(null);
-
-  categories: Category[] = [
-    { id: 'food', name: 'Essen', type: 'expense' },
-    { id: 'salary', name: 'Gehalt', type: 'income' },
-  ];
 
   private readonly _transactionStore = inject(TransactionStore);
   private readonly _toast = inject(ToastService);

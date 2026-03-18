@@ -1,0 +1,27 @@
+<div class="sort-buttons">
+  <button [class.active]="store.filter.order() === 'asc'" (click)="store.setSortOrder('asc')">
+    ↑
+  </button>
+
+  <button [class.active]="store.filter.order() === 'desc'" (click)="store.setSortOrder('desc')">
+    ↓
+  </button>
+
+  <button [class.active]="store.filter.query() === 'all'" (click)="store.setFilterQuery('all')">
+    All
+  </button>
+
+  <button
+    [class.active]="store.filter.query() === 'income'"
+    (click)="store.setFilterQuery('income')"
+  >
+    Income
+  </button>
+
+  <button
+    [class.active]="store.filter.query() === 'expense'"
+    (click)="store.setFilterQuery('expense')"
+  >
+    Expense
+  </button>
+</div>

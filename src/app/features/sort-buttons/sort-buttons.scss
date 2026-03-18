@@ -1,0 +1,27 @@
+.sort-buttons {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+
+  button {
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    background: #f5f5f5;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.2s;
+
+    &:hover {
+      background: #e0e0e0;
+      transform: translateY(-1px);
+    }
+
+    &.active {
+      background: #4caf50;
+      color: white;
+      border-color: #4caf50;
+    }
+  }
+}

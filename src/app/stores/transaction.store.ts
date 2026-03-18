@@ -6,10 +6,9 @@ import {
   withMethods,
   withState,
 } from '@ngrx/signals';
-import { Transaction } from '../models/transaction.model';
+import { CategoryType, Transaction } from '../models/transaction.model';
 import { computed, effect } from '@angular/core';
 import { loadFromLocalStorage, saveToLocalStorage } from '../utils/localStorage';
-import { CategoryType } from '../models/category.model';
 
 type TransactionState = {
   transactions: Transaction[];
@@ -27,12 +26,17 @@ const initialTransactionState: TransactionState = (() => {
     },
   });
 
+  const transactions = (state.transactions ?? []).map((t) => ({
+    ...t,
+    date: new Date(t.date),
+  }));
+
   return {
-    ...state,
-    transactions: state.transactions.map((t) => ({
-      ...t,
-      date: new Date(t.date), // 🔥 wichtig
-    })),
+    transactions,
+    filter: state.filter ?? {
+      query: 'all',
+      order: 'asc',
+    },
   };
 })();
 
@@ -42,7 +46,10 @@ export const TransactionStore = signalStore(
 
   withComputed((store) => ({
     getFilteredTransactions: computed(() => {
-      const { query, order } = store.filter();
+      
+      const query = store.filter.query();
+      const order = store.filter.order();
+
       const direction = order === 'asc' ? 1 : -1;
 
       return store
@@ -50,6 +57,7 @@ export const TransactionStore = signalStore(
         .filter((t) => query === 'all' || t.category === query)
         .sort((a, b) => direction * a.amount - direction * b.amount);
     }),
+
     summary: computed(() => {
       const transactions = store.transactions();
 
@@ -89,6 +97,24 @@ export const TransactionStore = signalStore(
     deleteTransaction(id: string) {
       patchState(store, (state) => ({
         transactions: state.transactions.filter((t) => t.id !== id),
+      }));
+    },
+
+    setFilterQuery(query: CategoryType | 'all') {
+      patchState(store, (state) => ({
+        filter: {
+          ...state.filter,
+          query,
+        },
+      }));
+    },
+
+    setSortOrder(order: 'asc' | 'desc') {
+      patchState(store, (state) => ({
+        filter: {
+          ...state.filter,
+          order,
+        },
       }));
     },
 
