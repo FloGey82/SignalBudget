@@ -18,7 +18,7 @@ export class TransactionList {
 
   summary = this.transactionStore.summary;
   transactions = this.transactionStore.getFilteredTransactions;
-  showPanel = signal(false);
+  showPanel = signal<boolean>(false);
   editingTransactionId = signal<string | null>(null);
 
   deleteTransaction(id: string) {
