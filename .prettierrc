@@ -1,0 +1,8 @@
+{
+  "printWidth": 80,
+  "singleQuote": true,
+  "semi": true,
+  "plugins": ["@trivago/prettier-plugin-sort-imports"],
+  "importOrder": ["^@angular/(.*)$", "^@ngrx/(.*)$", "^rxjs", "^[./]"],
+  "importOrderSeparation": true
+}
