@@ -6,7 +6,8 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "deploy": "gh-pages -d dist/SignalBudget/browser"
   },
   "prettier": {
     "printWidth": 100,
@@ -39,6 +40,7 @@
     "@angular/cli": "^21.1.2",
     "@angular/compiler-cli": "^21.1.0",
     "@trivago/prettier-plugin-sort-imports": "^6.0.2",
+    "gh-pages": "^6.3.0",
     "jsdom": "^27.1.0",
     "prettier": "^3.8.1",
     "typescript": "~5.9.2",

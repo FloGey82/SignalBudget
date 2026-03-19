@@ -1,59 +1,132 @@
-# SignalBudget
+# 💸 SignalBudget
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.2.
+**SignalBudget** is a modern, reactive expense tracking application built with Angular’s latest **Signals API** and **NgRx SignalStore**.
+It demonstrates a clean, scalable approach to state management, real-time UI updates, and local persistence — without relying on traditional RxJS-heavy patterns.
 
-## Development server
+---
 
-To start a local development server, run:
+## 🚀 Live Demo
+
+*(optional – add deployment link here)*
+
+---
+
+## 🧠 Why this project?
+
+This project was built to explore **modern Angular architecture** using Signals and to replace classical observable-based state management with a more **predictable and ergonomic approach**.
+
+Key focus areas:
+
+* Reactive UI without subscriptions
+* Clean separation of state, logic, and presentation
+* Minimal but scalable architecture
+* Developer-friendly patterns with strong typing
+
+---
+
+## ✨ Features
+
+* Add, edit and delete transactions
+* Real-time balance calculation (income / expenses)
+* Filter and sort transactions dynamically
+* Persistent state via LocalStorage
+* Slide-in Drawer UI for seamless editing
+* Fully reactive state powered by Signals
+
+---
+
+## 🏗️ Architecture
+
+### State Management
+
+The application uses **NgRx SignalStore** for state handling:
+
+* `transactions` → core data source
+* `filter` → UI state (query + sort order)
+* `computed signals`:
+
+  * `summary` → derived financial overview
+  * `filteredTransactions` → UI-ready data
+
+All state updates are handled via **immutable updates (`patchState`)**, ensuring predictability and traceability.
+
+---
+
+### Reactive Design
+
+* No manual subscriptions
+* UI reacts automatically via Signals
+* Derived state handled with `computed()`
+* Side effects (LocalStorage sync) handled via `effect()`
+
+---
+
+### Persistence Layer
+
+State is automatically synchronized with **LocalStorage**, ensuring:
+
+* Data persistence across reloads
+* Instant restoration on app startup
+* Lightweight, backend-free storage solution
+
+---
+
+## 🧩 Tech Stack
+
+* **Angular (Standalone Components)**
+* **Angular Signals**
+* **@ngrx/signals (SignalStore)**
+* **TypeScript (strict typing)**
+* **SCSS (custom UI styling)**
+
+---
+
+## 🎨 UI / UX Highlights
+
+* Floating Action Button (FAB) for primary actions
+* Slide-in Drawer for creating/editing transactions
+* Clean, minimal layout with responsive spacing
+* Visual feedback for active filters and sorting
+* Toast notifications for user feedback
+* Smooth micro-interactions and transitions
+
+---
+
+## 🧪 Code Quality & Practices
+
+* Strong TypeScript typing (Signals & Computeds)
+* ESLint + Prettier for consistent code style
+* Clear separation of concerns
+* Reusable and composable UI components
+
+---
+
+## ⚡ Getting Started
 
 ```bash
-ng serve
+npm install
+npm start
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+App runs on:
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
+```
+http://localhost:4200
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+---
 
-```bash
-ng generate --help
-```
+## 📌 Key Takeaways
 
-## Building
+This project demonstrates how Angular Signals can:
 
-To build the project run:
+* Simplify state management
+* Reduce boilerplate compared to RxJS-heavy approaches
+* Improve developer experience and readability
+* Enable highly reactive UIs with minimal complexity
 
-```bash
-ng build
-```
+---
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## 📄 License
 
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+MIT
