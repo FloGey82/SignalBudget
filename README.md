@@ -7,7 +7,7 @@ It demonstrates a clean, scalable approach to state management, real-time UI upd
 
 ## 🚀 Live Demo
 
-*(optional – add deployment link here)*
+https://flogey82.github.io/SignalBudget/
 
 ---
 
