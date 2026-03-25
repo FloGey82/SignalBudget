@@ -12,7 +12,7 @@ import { loadFromLocalStorage, saveToLocalStorage } from '../utils/localStorage'
 
 type TransactionState = {
   transactions: Transaction[];
-  filter: { query: CategoryType | 'all'; order: 'asc' | 'desc' };
+  filter: { query: CategoryType | 'all'; order: 'asc' | 'desc'; month: null | string };
 };
 
 const LOCAL_STORAGE_KEY = 'transactions';
@@ -23,6 +23,7 @@ const initialTransactionState: TransactionState = (() => {
     filter: {
       query: 'all',
       order: 'asc',
+      month: null,
     },
   });
 
@@ -36,6 +37,7 @@ const initialTransactionState: TransactionState = (() => {
     filter: state.filter ?? {
       query: 'all',
       order: 'asc',
+      month: null,
     },
   };
 })();
@@ -45,15 +47,33 @@ export const TransactionStore = signalStore(
   withState(initialTransactionState),
 
   withComputed((store) => ({
-    getFilteredTransactions: computed(() => {
-      const query = store.filter.query();
-      const order = store.filter.order();
+    availableMonths: computed(() => {
+      const transaction = store.transactions();
+      const months = new Set<string>();
 
-      const direction = order === 'asc' ? 1 : -1;
+      for (const t of transaction) {
+        const date = new Date(t.date);
+        const key = `${date.getFullYear()}-${date.getMonth()}`;
+        months.add(key);
+      }
+
+      return Array.from(months).sort().reverse();
+    }),
+
+    getFilteredTransactions: computed(() => {
+      const { query, order, month } = store.filter;
+      const direction = order() === 'asc' ? 1 : -1;
 
       return store
         .transactions()
-        .filter((t) => query === 'all' || t.category === query)
+        .filter((t) => {
+          const matchcategory = query() === 'all' || t.category === query();
+          if (!month()) return matchcategory;
+
+          const date = new Date(t.date);
+          const key = `${date.getFullYear()}-${date.getMonth()}`;
+          return matchcategory && key === month();
+        })
         .sort((a, b) => direction * a.amount - direction * b.amount);
     }),
 
@@ -112,6 +132,15 @@ export const TransactionStore = signalStore(
         filter: {
           ...state.filter,
           order,
+        },
+      }));
+    },
+
+    setMonth(month: string | null) {
+      patchState(store, (state) => ({
+        filter: {
+          ...state.filter,
+          month,
         },
       }));
     },
