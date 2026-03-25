@@ -153,10 +153,12 @@ export const TransactionStore = signalStore(
   withHooks((store) => ({
     onInit() {
       effect(() => {
-        const state = store.transactions();
+        const transactions = store.transactions();
+        const filter = store.filter();
 
         saveToLocalStorage(LOCAL_STORAGE_KEY, {
-          transactions: state,
+          transactions: transactions,
+          filter: filter,
         });
       });
     },

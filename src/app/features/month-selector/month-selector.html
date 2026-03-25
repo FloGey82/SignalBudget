@@ -1,0 +1,21 @@
+@if (transactionStore.availableMonths().length > 1) {
+  <div class="month-bar">
+    <button
+      class="month"
+      [class.active]="!transactionStore.filter.month()"
+      (click)="transactionStore.setMonth(null)"
+    >
+      All
+    </button>
+
+    @for (m of transactionStore.availableMonths(); track m) {
+      <button
+        class="month"
+        [class.active]="transactionStore.filter.month() === m"
+        (click)="transactionStore.setMonth(m)"
+      >
+        {{ m }}
+      </button>
+    }
+  </div>
+}

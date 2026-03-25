@@ -5,10 +5,11 @@ import { Drawer } from '../../shared/drawer/drawer';
 import { TransactionForm } from '../transaction-form/transaction-form';
 import { ToastService } from '../../shared/toast/toast.service';
 import { SortButtons } from '../sort-buttons/sort-buttons';
+import { MonthSelector } from "../month-selector/month-selector";
 
 @Component({
   selector: 'app-transaction-list',
-  imports: [CurrencyPipe, DatePipe, Drawer, TransactionForm, SortButtons],
+  imports: [CurrencyPipe, DatePipe, Drawer, TransactionForm, SortButtons, MonthSelector],
   templateUrl: './transaction-list.html',
   styleUrl: './transaction-list.scss',
 })
