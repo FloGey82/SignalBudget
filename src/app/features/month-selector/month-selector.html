@@ -14,7 +14,7 @@
         [class.active]="transactionStore.filter.month() === m"
         (click)="transactionStore.setMonth(m)"
       >
-        {{ m }}
+        {{ m | monthFormat }}
       </button>
     }
   </div>
