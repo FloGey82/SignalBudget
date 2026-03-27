@@ -1,12 +1,19 @@
-<div class="sort-buttons">
-  <button [class.active]="store.filter.order() === 'asc'" (click)="store.setSortOrder('asc')">
-    ↑
-  </button>
+<div class="sort-bar">
+  @for (option of sortOptions; track option.key) {
+    <button
+      [class.active]="store.filter().sortBy === option.key"
+      (click)="
+        store.setSortBy(option.key);
+        store.setSortOrder(store.filter().order === 'asc' ? 'desc' : 'asc')
+      "
+    >
+      {{ option.label }}
 
-  <button [class.active]="store.filter.order() === 'desc'" (click)="store.setSortOrder('desc')">
-    ↓
-  </button>
-
+      @if (store.filter().sortBy === option.key) {
+        <span class="arrow">{{ store.filter().order === 'asc' ? '↑' : '↓' }}</span>
+      }
+    </button>
+  }
   <button [class.active]="store.filter.query() === 'all'" (click)="store.setFilterQuery('all')">
     All
   </button>

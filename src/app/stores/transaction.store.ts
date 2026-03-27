@@ -12,10 +12,16 @@ import { loadFromLocalStorage, saveToLocalStorage } from '../utils/localStorage'
 
 type TransactionState = {
   transactions: Transaction[];
-  filter: { query: CategoryType | 'all'; order: 'asc' | 'desc'; month: null | string };
+  filter: {
+    query: CategoryType | 'all';
+    order: 'asc' | 'desc';
+    sortBy: sortableTransactionKeys;
+    month: null | string;
+  };
 };
 
 const LOCAL_STORAGE_KEY = 'transactions';
+export type sortableTransactionKeys = keyof Pick<Transaction, 'amount' | 'date' | 'category'>;
 
 const initialTransactionState: TransactionState = (() => {
   const state = loadFromLocalStorage<TransactionState>(LOCAL_STORAGE_KEY, {
@@ -23,6 +29,7 @@ const initialTransactionState: TransactionState = (() => {
     filter: {
       query: 'all',
       order: 'asc',
+      sortBy: 'date',
       month: null,
     },
   });
@@ -38,6 +45,7 @@ const initialTransactionState: TransactionState = (() => {
       query: 'all',
       order: 'asc',
       month: null,
+      sortBy: 'date',
     },
   };
 })();
@@ -61,20 +69,37 @@ export const TransactionStore = signalStore(
     }),
 
     getFilteredTransactions: computed(() => {
-      const { query, order, month } = store.filter;
-      const direction = order() === 'asc' ? 1 : -1;
+      const { query, order, month, sortBy } = store.filter();
+      const direction = order === 'asc' ? 1 : -1;
 
       return store
         .transactions()
         .filter((t) => {
-          const matchcategory = query() === 'all' || t.category === query();
-          if (!month()) return matchcategory;
+          const matchcategory = query === 'all' || t.category === query;
+          if (!month) return matchcategory;
 
           const date = new Date(t.date);
-          const key = `${date.getFullYear()}-${date.getMonth()}`;
-          return matchcategory && key === month();
+          const monthKey = `${date.getFullYear()}-${date.getMonth()}`;
+          return matchcategory && monthKey === month;
         })
-        .sort((a, b) => direction * a.amount - direction * b.amount);
+        .sort((a, b) => {
+          const aValue = a[sortBy];
+          const bValue = b[sortBy];
+
+          if (aValue instanceof Date && bValue instanceof Date) {
+            return direction * (aValue.getTime() - bValue.getTime());
+          }
+
+          if (typeof aValue === 'string' && typeof bValue === 'string') {
+            return direction * aValue.localeCompare(bValue);
+          }
+
+          if (typeof aValue === 'number' && typeof bValue === 'number') {
+            return direction * (aValue - bValue);
+          }
+
+          return 0;
+        });
     }),
 
     summary: computed(() => {
@@ -132,6 +157,15 @@ export const TransactionStore = signalStore(
         filter: {
           ...state.filter,
           order,
+        },
+      }));
+    },
+
+    setSortBy(key: sortableTransactionKeys) {
+      patchState(store, (state) => ({
+        filter: {
+          ...state.filter,
+          sortBy: key,
         },
       }));
     },
