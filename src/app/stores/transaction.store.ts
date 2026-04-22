@@ -9,6 +9,7 @@ import {
 import { CategoryType, Transaction } from '../models/transaction.model';
 import { computed, effect } from '@angular/core';
 import { loadFromLocalStorage, saveToLocalStorage } from '../utils/localStorage';
+import { formatMonth } from '../utils/formatMonth';
 
 type TransactionState = {
   transactions: Transaction[];
@@ -66,6 +67,40 @@ export const TransactionStore = signalStore(
       }
 
       return Array.from(months).sort().reverse();
+    }),
+
+    monthlyChartData: computed(() => {
+      const transactions = store.transactions();
+
+      const map = new Map<string, { income: number; expense: number }>();
+
+      for (const t of transactions) {
+        const d = new Date(t.date);
+        const key = `${d.getFullYear()}-${d.getMonth()}`;
+
+        if (!map.has(key)) {
+          map.set(key, { income: 0, expense: 0 });
+        }
+
+        const entry = map.get(key)!;
+
+        if (t.category === 'income') {
+          entry.income += t.amount;
+        } else {
+          entry.expense += t.amount;
+        }
+      }
+
+      return Array.from(map.entries())
+        .sort()
+        .map(([key, value]) => {
+          const [year, month] = key.split('-').map(Number);
+
+          return {
+            label: formatMonth(new Date(year, month)),
+            ...value,
+          };
+        });
     }),
 
     getFilteredTransactions: computed(() => {

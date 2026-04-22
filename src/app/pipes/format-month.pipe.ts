@@ -1,17 +1,13 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { formatMonth } from '../utils/formatMonth';
 
 @Pipe({
   name: 'monthFormat',
   standalone: true,
 })
 export class MonthFormat implements PipeTransform {
-  private formatter = new Intl.DateTimeFormat('en-GB', {
-    year: 'numeric',
-    month: 'short',
-  });
-
   transform(value: string): string {
     const [year, month] = value.split('-').map(Number);
-    return this.formatter.format(new Date(year, month));
+    return formatMonth(new Date(year, month));
   }
 }
