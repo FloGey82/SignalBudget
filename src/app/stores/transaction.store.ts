@@ -103,6 +103,23 @@ export const TransactionStore = signalStore(
         });
     }),
 
+    categoryChartData: computed(() => {
+      const map = new Map<string, number>();
+
+      for (const t of store.transactions()) {
+        if (t.category !== 'expense') continue;
+
+        const key = t.description || 'other';
+
+        map.set(key, (map.get(key) ?? 0) + t.amount);
+      }
+
+      return Array.from(map.entries()).map(([label, value]) => ({
+        label,
+        value,
+      }));
+    }),
+
     getFilteredTransactions: computed(() => {
       const { query, order, month, sortBy } = store.filter();
       const direction = order === 'asc' ? 1 : -1;
