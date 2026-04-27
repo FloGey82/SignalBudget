@@ -1,0 +1,16 @@
+<section class="summary">
+  <div class="summary-card income">
+    <span class="label">Income</span>
+    <span class="value">{{ summary().income | currency: 'EUR' }}</span>
+  </div>
+
+  <div class="summary-card expense">
+    <span class="label">Expense</span>
+    <span class="value">{{ summary().expense | currency: 'EUR' }}</span>
+  </div>
+
+  <div class="summary-card balance">
+    <span class="label">Balance</span>
+    <span class="value">{{ summary().balance | currency: 'EUR' }}</span>
+  </div>
+</section>
