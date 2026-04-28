@@ -6,12 +6,10 @@ import { TransactionForm } from '../transaction-form/transaction-form';
 import { ToastService } from '../../shared/toast/toast.service';
 import { SortButtons } from '../sort-buttons/sort-buttons';
 import { MonthSelector } from "../month-selector/month-selector";
-import { MonthChart } from "../month-chart/month-chart";
-import { DoughnutChart } from "../doughnut-chart/doughnut-chart";
 
 @Component({
   selector: 'app-transaction-list',
-  imports: [CurrencyPipe, DatePipe, Drawer, TransactionForm, SortButtons, MonthSelector, MonthChart, DoughnutChart],
+  imports: [CurrencyPipe, DatePipe, Drawer, TransactionForm, SortButtons, MonthSelector],
   templateUrl: './transaction-list.html',
   styleUrl: './transaction-list.scss',
 })
